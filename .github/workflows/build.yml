@@ -29,7 +29,8 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Compile the Project
         working-directory: github-actions-java-maven
-        run: mvn -B compile
+        run: ls /opt
+        #run: mvn -B compile
   
   build:
     runs-on: ubuntu-20.04
