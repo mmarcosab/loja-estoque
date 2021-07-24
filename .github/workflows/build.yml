@@ -25,7 +25,6 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-package: jdk
           java-version: '11'
       - name: Compile the Project
         working-directory: github-actions-java-maven
