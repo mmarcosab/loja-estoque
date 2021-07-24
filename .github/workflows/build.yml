@@ -1,0 +1,84 @@
+# This is a basic workflow to help you get started with Actions
+name: Build
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  pull_request:
+    branches:
+      - develop
+    paths-ignore:
+      - '**.md'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  compile:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        java: [ 11, 12, 13, 14 ]
+    name: Java ${{ matrix.java }} compile
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-package: jdk
+          java-version: ${{ matrix.java }}
+      - name: Compile the Project
+        working-directory: github-actions-java-maven
+        run: mvn -B compile
+  
+  build:
+    runs-on: ubuntu-20.04
+    needs: compile
+    name: Build the Maven Project
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+          distribution: 'adopt'
+          java-version: '11'
+          java-package: jdk
+    - name: Build and test project
+      working-directory: github-actions-java-maven
+      run: mvn -B verify
+    - name: Upload Maven build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: loja-estoque.jar
+        path: github-actions-java-maven/target/github-actions-java-maven.jar
+        
+#  deploy:
+#    runs-on: ubuntu-20.04
+#    needs: build
+#    name: Build Docker Container and Deploy to Kubernetes
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Download Maven build artifact
+#      uses: actions/download-artifact@v2
+#      with:
+#        name: loja-estoque.jar
+#        path: github-actions-java-maven/target
+#    - name: Build Docker container
+#      working-directory: github-actions-java-maven
+#      run: |
+#        docker build -t de.rieckpil.blog/github-actions-sample .
+#    - name: Access secrets
+#      env:
+#        SUPER_SECRET: ${{ secrets.SUPER_SECRET }}
+#      run: echo "Content of secret - $SUPER_SECRET"
+#    - name: Push Docker images
+#      run: echo "Pushing Docker image to Container Registry (e.g. ECR)"
+#    - name: Deploy application
+#      run: echo "Deploying application (e.g. Kubernetes)"
+   
