@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Getter
 @AllArgsConstructor
-public class ProdutoInputModel implements InputModel{
+public class ProdutoInputModel extends AbstractInputModel {
 
     private String nome;
     private String descricao;

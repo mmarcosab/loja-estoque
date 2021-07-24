@@ -7,12 +7,10 @@ import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
-public class ProdutoOutputModel implements OutputModel{
+public class ProdutoOutputModel extends AbstractOutputModel {
 
-    private int codigo;
     private String nome;
     private String descricao;
     private BigDecimal preco;
     private LocalDate dataHoraAtualizacao;
-
 }
