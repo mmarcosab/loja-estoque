@@ -51,7 +51,41 @@ jobs:
       with:
         name: loja-estoque.jar
         path: github-actions-java-maven/target/github-actions-java-maven.jar
+
+# steps de deploy
+# aqui eh possivel criar containers, subir pro docker hub ou alguma cloud
+# por enquanto deixei apenas os steps
+
+  deploy-dev:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: 
+      name: development
+#      url:
+    steps:
+      - name: run deploy-dev script
+        run: echo deploy-dev
         
+  deploy-hom:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: 
+      name: hom
+#url:
+    steps:
+      - name: run deploy-hom script
+        run: echo deploy-hom
+        
+  deploy-prod:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: 
+      name: prod
+#      url:
+    steps:
+      - name: run deploy-prod script
+        run: echo deploy-prod
+
 #  deploy:
 #    runs-on: ubuntu-20.04
 #    needs: build
