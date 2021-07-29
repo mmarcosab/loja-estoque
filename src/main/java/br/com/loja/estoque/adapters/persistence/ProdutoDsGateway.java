@@ -6,9 +6,10 @@ import br.com.loja.estoque.adapters.persistence.models.ProdutoData;
 import java.util.List;
 
 public interface ProdutoDsGateway {
-    boolean existsById(String name);
-    ProdutoData save(ProdutoInputModel requestModel);
-    List<ProdutoData> getAll();
-    ProdutoData update(ProdutoInputModel requestModel, String id);
-    void delete(String id);
+    List<ProdutoData> findAll();
+    boolean existsById(String codigo);
+    ProdutoData findById(String codigo) throws Exception;
+    ProdutoData save(ProdutoInputModel requestModel) throws Exception;
+    ProdutoData update(ProdutoInputModel requestModel) throws Exception;
+    void delete(String id) throws Exception;
 }
