@@ -6,7 +6,6 @@ import br.com.loja.estoque.domain.usecases.impl.CreateProductUseCase;
 import br.com.loja.estoque.domain.usecases.impl.DeleteProductUseCase;
 import br.com.loja.estoque.domain.usecases.impl.FindProductUseCase;
 import br.com.loja.estoque.domain.usecases.impl.UpdateProductUseCase;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,6 @@ import static org.springframework.hateoas.RepresentationModel.of;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@Api
 @RestController
 @RequestMapping("/produtos")
 @RequiredArgsConstructor
