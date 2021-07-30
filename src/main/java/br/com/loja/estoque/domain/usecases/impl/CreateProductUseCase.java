@@ -1,9 +1,8 @@
 package br.com.loja.estoque.domain.usecases.impl;
 
-import br.com.loja.estoque.adapters.controllers.request.InputModel;
+
 import br.com.loja.estoque.adapters.controllers.request.ProdutoInputModel;
 import br.com.loja.estoque.adapters.controllers.response.OutputModel;
-import br.com.loja.estoque.adapters.controllers.response.ProdutoOutputModel;
 import br.com.loja.estoque.adapters.persistence.ProdutoDsGateway;
 import br.com.loja.estoque.adapters.presenters.ProdutoPresenter;
 import br.com.loja.estoque.domain.usecases.CreateUseCase;
