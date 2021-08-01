@@ -24,7 +24,7 @@ public class MongoRunner {
 
     static void startMongo() throws IOException, InterruptedException {
         if(SystemUtils.IS_OS_WINDOWS) run("cmd.exe /C start docker compose up");
-        else if(SystemUtils.IS_OS_LINUX) run("docker compose up");
+        else if(SystemUtils.IS_OS_LINUX) run("/bin/bash -c docker compose up");
         while(!isMongoRunning()) {
             log.info("Starting mongo...");
             Thread.sleep(5000);
