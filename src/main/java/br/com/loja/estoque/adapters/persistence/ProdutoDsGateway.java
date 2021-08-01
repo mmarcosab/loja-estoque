@@ -11,5 +11,6 @@ public interface ProdutoDsGateway {
     ProdutoData findById(String codigo) throws Exception;
     ProdutoData save(ProdutoInputModel requestModel) throws Exception;
     ProdutoData update(ProdutoInputModel requestModel) throws Exception;
+    ProdutoData patch(ProdutoInputModel requestModel) throws Exception;
     void delete(String id) throws Exception;
 }

@@ -2,10 +2,7 @@ package br.com.loja.estoque.adapters.controllers;
 
 import br.com.loja.estoque.adapters.controllers.request.ProdutoInputModel;
 import br.com.loja.estoque.adapters.controllers.response.OutputModel;
-import br.com.loja.estoque.domain.usecases.impl.CreateProductUseCase;
-import br.com.loja.estoque.domain.usecases.impl.DeleteProductUseCase;
-import br.com.loja.estoque.domain.usecases.impl.FindProductUseCase;
-import br.com.loja.estoque.domain.usecases.impl.UpdateProductUseCase;
+import br.com.loja.estoque.domain.usecases.impl.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
@@ -29,6 +26,7 @@ public class ProdutoController {
     private final DeleteProductUseCase deleteUseCase;
     private final CreateProductUseCase createUseCase;
     private final UpdateProductUseCase updateUseCase;
+    private final PatchProductUseCase patchUseCase;
 
     @GetMapping("/{codigo}")
     public ResponseEntity<?> findOne(@PathVariable String codigo) {
@@ -103,8 +101,27 @@ public class ProdutoController {
         }
     }
 
+    @PatchMapping
+    public ResponseEntity<?> patch(@RequestBody ProdutoInputModel produto) {
+        try {
+            final var updated = patchUseCase.execute(produto);
+            return ResponseEntity
+                    .ok(linkTo(methodOn(ProdutoController.class)
+                            .findOne(updated.getCodigo()))
+                            .withSelfRel());
+        } catch (ResponseStatusException e) {
+            return ResponseEntity
+                    .status(e.getStatus())
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{codigo}")
-    public ResponseEntity<?> delete(@RequestParam String codigo) {
+    public ResponseEntity<?> delete(@PathVariable String codigo) {
         try {
             deleteUseCase.execute(codigo);
             return ResponseEntity

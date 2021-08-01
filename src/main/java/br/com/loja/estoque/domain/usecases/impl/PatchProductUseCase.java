@@ -4,13 +4,13 @@ import br.com.loja.estoque.adapters.controllers.request.ProdutoInputModel;
 import br.com.loja.estoque.adapters.controllers.response.OutputModel;
 import br.com.loja.estoque.adapters.persistence.ProdutoDsGateway;
 import br.com.loja.estoque.adapters.presenters.ProdutoPresenter;
-import br.com.loja.estoque.domain.usecases.UpdateUseCase;
+import br.com.loja.estoque.domain.usecases.PatchUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UpdateProductUseCase implements UpdateUseCase<ProdutoInputModel, OutputModel> {
+public class PatchProductUseCase implements PatchUseCase<ProdutoInputModel> {
 
     private final ProdutoDsGateway produtoDsGateway;
     private final ProdutoPresenter produtoPresenter;
@@ -18,9 +18,9 @@ public class UpdateProductUseCase implements UpdateUseCase<ProdutoInputModel, Ou
     @Override
     public OutputModel execute(ProdutoInputModel produto) {
         try {
-            var produtoData = produtoDsGateway.update(produto);
+            var produtoData = produtoDsGateway.patch(produto);
             return produtoPresenter.createSuccessView(produtoData);
-        } catch (Exception e) {
+        } catch(Exception e) {
             return produtoPresenter.createFailView(e.getMessage());
         }
     }

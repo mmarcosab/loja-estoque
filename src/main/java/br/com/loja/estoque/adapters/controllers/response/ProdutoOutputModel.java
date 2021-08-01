@@ -1,12 +1,12 @@
 package br.com.loja.estoque.adapters.controllers.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
+@NoArgsConstructor
 public class ProdutoOutputModel extends AbstractOutputModel {
 
 
