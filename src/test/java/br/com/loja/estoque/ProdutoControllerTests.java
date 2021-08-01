@@ -5,13 +5,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.io.IOException;
+
+import static br.com.loja.estoque.MongoRunner.isMongoRunning;
+import static br.com.loja.estoque.MongoRunner.startMongo;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON;
@@ -21,6 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("Tests for product controller")
+@ExtendWith(SpringExtension.class)
+@TestPropertySource("classpath:application-test.properties")
 public class ProdutoControllerTests {
 
     @Autowired private ProdutoTesteFactory produtoTesteFactory;
@@ -32,7 +41,8 @@ public class ProdutoControllerTests {
     @Mock private ProdutoRepository produtoRepository;
 
     @BeforeEach
-    public void beforeEach() {
+    public void beforeEach() throws IOException, InterruptedException {
+        if(!isMongoRunning()) startMongo();
         produtoRepository.deleteAll();
     }
 
