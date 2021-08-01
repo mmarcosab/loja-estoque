@@ -44,6 +44,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - name: Start Mongo DB
+      run: docker compose up
     - name: Compile code
       run: mvn -B verify
     - name: Upload Maven build artifact
