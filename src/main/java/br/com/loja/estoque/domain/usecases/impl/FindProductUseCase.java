@@ -1,18 +1,16 @@
 package br.com.loja.estoque.domain.usecases.impl;
 
 import br.com.loja.estoque.adapters.controllers.response.OutputModel;
-import br.com.loja.estoque.adapters.controllers.response.ProdutoOutputModel;
 import br.com.loja.estoque.adapters.persistence.ProdutoDsGateway;
 import br.com.loja.estoque.adapters.presenters.ProdutoPresenter;
 import br.com.loja.estoque.domain.usecases.FindUseCase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class FindProductUseCase implements FindUseCase<String, OutputModel> {
 
