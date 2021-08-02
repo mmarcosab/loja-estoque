@@ -2,10 +2,7 @@ package br.com.loja.estoque.adapters.controllers;
 
 import br.com.loja.estoque.adapters.controllers.request.ProdutoInputModel;
 import br.com.loja.estoque.adapters.controllers.response.OutputModel;
-import br.com.loja.estoque.domain.usecases.impl.CreateProductUseCase;
-import br.com.loja.estoque.domain.usecases.impl.DeleteProductUseCase;
-import br.com.loja.estoque.domain.usecases.impl.FindProductUseCase;
-import br.com.loja.estoque.domain.usecases.impl.UpdateProductUseCase;
+import br.com.loja.estoque.domain.usecases.impl.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
@@ -86,12 +83,14 @@ public class ProdutoController {
         }
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<?> update(@RequestBody ProdutoInputModel produto) {
         try {
-            var updated = updateUseCase.execute(produto);
+            final var updated = updateUseCase.execute(produto);
             return ResponseEntity
-                    .ok(build(updated, methodOn(ProdutoController.class).findOne(updated.getCodigo())));
+                    .ok(linkTo(methodOn(ProdutoController.class)
+                            .findOne(updated.getCodigo()))
+                            .withSelfRel());
         } catch (ResponseStatusException e) {
             return ResponseEntity
                     .status(e.getStatus())
@@ -104,7 +103,7 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/{codigo}")
-    public ResponseEntity<?> delete(@RequestParam String codigo) {
+    public ResponseEntity<?> delete(@PathVariable String codigo) {
         try {
             deleteUseCase.execute(codigo);
             return ResponseEntity

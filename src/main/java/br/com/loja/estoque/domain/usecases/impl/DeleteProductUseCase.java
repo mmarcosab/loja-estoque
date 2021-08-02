@@ -5,9 +5,9 @@ import br.com.loja.estoque.adapters.persistence.ProdutoDsGateway;
 import br.com.loja.estoque.adapters.presenters.ProdutoPresenter;
 import br.com.loja.estoque.domain.usecases.DeleteUseCase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class DeleteProductUseCase implements DeleteUseCase<String, OutputModel> {
 

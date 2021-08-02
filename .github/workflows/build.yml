@@ -44,6 +44,12 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+        
+    - name: Start MongoDB 4.2
+      uses: supercharge/mongodb-github-action@1.2.0
+      with:
+        mongodb-version: 4.2
+        
     - name: Compile code
       run: mvn -B verify
     - name: Upload Maven build artifact
