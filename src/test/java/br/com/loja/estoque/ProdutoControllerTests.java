@@ -1,12 +1,15 @@
 package br.com.loja.estoque;
 
+import br.com.loja.estoque.adapters.controllers.ProdutoController;
 import br.com.loja.estoque.adapters.persistence.repositories.ProdutoRepository;
+import br.com.loja.estoque.domain.usecases.impl.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,12 +36,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ProdutoControllerTests {
 
     @Autowired private ProdutoTesteFactory produtoTesteFactory;
+    @Autowired private ProdutoRepository produtoRepository;
     @Autowired private ObjectMapper objectMapper;
     @Autowired private MockMvc mockMvc;
 
     private final String PRODUCTS = "/produtos";
-
-    @Mock private ProdutoRepository produtoRepository;
 
     @BeforeEach
     public void beforeEach() throws IOException, InterruptedException {
@@ -93,50 +95,6 @@ public class ProdutoControllerTests {
 
         mockMvc.perform(request)
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.codigo").exists())
-                .andExpect(jsonPath("$.nome").value(product.getNome()))
-                .andExpect(jsonPath("$.descricao").value(product.getDescricao()))
-                .andExpect(jsonPath("$.preco").value(product.getPreco()))
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("Should update a product.")
-    public void shouldUpdateAProduct() throws Exception {
-
-        final var created = produtoTesteFactory.savedProduct();
-
-        assertNotNull(created);
-
-        final var request = MockMvcRequestBuilders
-                .put(PRODUCTS)
-                .contentType(HAL_JSON)
-                .content(objectMapper.writeValueAsString(created));
-
-        mockMvc.perform(request)
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.codigo").exists())
-                .andExpect(jsonPath("$.nome").value(created.getNome()))
-                .andExpect(jsonPath("$.descricao").value(created.getDescricao()))
-                .andExpect(jsonPath("$.preco").value(created.getPreco()))
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("Should create a product with put method.")
-    public void shouldCreateAProductWithPut() throws Exception {
-
-        final var product = produtoTesteFactory.mockProduct();
-
-        assertNotNull(product);
-
-        final var request = MockMvcRequestBuilders
-                .put(PRODUCTS)
-                .contentType(HAL_JSON)
-                .content(objectMapper.writeValueAsString(product));
-
-        mockMvc.perform(request)
-                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.codigo").exists())
                 .andExpect(jsonPath("$.nome").value(product.getNome()))
                 .andExpect(jsonPath("$.descricao").value(product.getDescricao()))

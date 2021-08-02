@@ -39,12 +39,7 @@ public class ProdutoJpa implements ProdutoDsGateway {
     }
 
     @Override
-    public ProdutoData update(ProdutoInputModel requestModel) {
-        return repository.save(requestToData(requestModel));
-    }
-
-    @Override
-    public ProdutoData patch(ProdutoInputModel requestModel) throws Exception {
+    public ProdutoData update(ProdutoInputModel requestModel) throws Exception {
         findById(requestModel.getCodigo());
         return repository.save(requestToData(requestModel));
     }

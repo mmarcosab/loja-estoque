@@ -26,7 +26,6 @@ public class ProdutoController {
     private final DeleteProductUseCase deleteUseCase;
     private final CreateProductUseCase createUseCase;
     private final UpdateProductUseCase updateUseCase;
-    private final PatchProductUseCase patchUseCase;
 
     @GetMapping("/{codigo}")
     public ResponseEntity<?> findOne(@PathVariable String codigo) {
@@ -84,27 +83,10 @@ public class ProdutoController {
         }
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<?> update(@RequestBody ProdutoInputModel produto) {
         try {
-            var updated = updateUseCase.execute(produto);
-            return ResponseEntity
-                    .ok(build(updated, methodOn(ProdutoController.class).findOne(updated.getCodigo())));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity
-                    .status(e.getStatus())
-                    .body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(e.getMessage());
-        }
-    }
-
-    @PatchMapping
-    public ResponseEntity<?> patch(@RequestBody ProdutoInputModel produto) {
-        try {
-            final var updated = patchUseCase.execute(produto);
+            final var updated = updateUseCase.execute(produto);
             return ResponseEntity
                     .ok(linkTo(methodOn(ProdutoController.class)
                             .findOne(updated.getCodigo()))
