@@ -4,12 +4,12 @@ phases:
   install:
     runtime-versions:
       java: corretto11
-    build:
-      commands:
-        - mvn clean install -DskipTests
-    post_build:
-      commands:
-        - echo build complete
+  build:
+    commands:
+      - mvn clean install -DskipTests
+  post_build:
+    commands:
+      - echo build complete
 
 artifacts:
   files:
