@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  
+
   compile:
     runs-on: ubuntu-latest
     steps:
@@ -44,12 +44,12 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-        
+
     - name: Start MongoDB 4.2
       uses: supercharge/mongodb-github-action@1.2.0
       with:
         mongodb-version: 4.2
-        
+
     - name: Compile code
       run: mvn -B verify
     - name: Upload Maven build artifact
@@ -65,27 +65,27 @@ jobs:
   deploy-dev:
     needs: build
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: development
 #      url:
     steps:
       - name: run deploy-dev script
         run: echo deploy-dev
-        
+
   deploy-hom:
     needs: deploy-dev
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: hom
 #url:
     steps:
       - name: run deploy-hom script
         run: echo deploy-hom
-        
+
   deploy-prod:
     needs: deploy-dev
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: prod
 #      url:
     steps:
