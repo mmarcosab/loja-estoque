@@ -11,43 +11,43 @@ import java.util.List;;
 @RequiredArgsConstructor
 public class ProdutoJpa implements ProdutoDsGateway {
 
-    private final ProdutoRepository repository;
+//    private final ProdutoRepository repository;
     private static final String NOT_FOUND = "Entidade nao encontrada a partir do id: ";
 
     @Override
     public boolean existsById(String id) {
-        return repository.existsById(id);
+        return false;//repository.existsById(id);
     }
 
     @Override
     public ProdutoData findById(String codigo) throws Exception {
-        return repository
-                .findById(codigo)
-                .orElseThrow(() -> new Exception(NOT_FOUND + codigo));
+        return null;//repository
+//                .findById(codigo)
+//                .orElseThrow(() -> new Exception(NOT_FOUND + codigo));
     }
 
     @Override
     public List<ProdutoData> findAll() {
-        return repository.findAll();
+        return null;// repository.findAll();
     }
 
     @Override
     public ProdutoData save(ProdutoInputModel requestModel) throws Exception {
         if(requestModel.getCodigo() != null)
             throw new Exception("Entidade ja possui id: " + requestModel.getCodigo());
-        return repository.save(requestToData(requestModel));
+        return null;// repository.save(requestToData(requestModel));
     }
 
     @Override
     public ProdutoData update(ProdutoInputModel requestModel) throws Exception {
         findById(requestModel.getCodigo());
-        return repository.save(requestToData(requestModel));
+        return null;// repository.save(requestToData(requestModel));
     }
 
     @Override
     public void delete(String id) throws Exception {
-        if(repository.existsById(id)) repository.deleteById(id);
-        else throw new Exception(NOT_FOUND + id);
+//        if(repository.existsById(id)) repository.deleteById(id);
+//        else throw new Exception(NOT_FOUND + id);
     }
 
     private ProdutoData requestToData(ProdutoInputModel requestModel) {

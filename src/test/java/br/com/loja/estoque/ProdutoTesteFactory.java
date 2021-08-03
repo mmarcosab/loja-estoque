@@ -25,10 +25,10 @@ public class ProdutoTesteFactory {
     }
 
     void deleteAll() {
-        produtoRepository.deleteAll();
+        //produtoRepository.deleteAll();
     }
 
     ProdutoData savedProduct() {
-        return produtoRepository.save(mockProduct());
+        return  null;//produtoRepository.save(mockProduct());
     }
 }
