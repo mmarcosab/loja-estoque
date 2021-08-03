@@ -1,21 +1,31 @@
 version: 0.0
 os: linux
+
 files:
-  - source: /target/estoque-0.0.1-SNAPSHOT.jar
-    destination: /tmp/
+  - source: /
+    destination: /home/ec2-user/application
+file_exists_behavior: OVERWRITE
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+    mode: 777
 hooks:
-  BeforeInstall:
-    - location: scripts/install_dependencies.sh
-      timeout: 300
-      runas: root
   ApplicationStop:
-    - location: scripts/stop_application.sh
-      timeout: 300
-      runas: root
+    - location: server_stop.sh
+      timeout: 60
+      runas: ec2-user
+  BeforeInstall:
+    - location: server_clear.sh
+      timeout: 60
+      runas: ec2-user
+  AfterInstall:
+    - location: fix_privileges.sh
+      timeout: 60
+      runas: ec2-user
   ApplicationStart:
-    - location: scripts/start_application.sh
-      timeout: 300
-      runas: root
-  ValidateService:
-    - location: scripts/basic_health_check.sh
-      runas: root
+    - location: server_start.sh
+      timeout: 60
+      runas: ec2-user
