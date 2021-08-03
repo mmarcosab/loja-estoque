@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ec2-user
+    destination: /home/ec2-user/application
 file_exists_behavior: OVERWRITE
 
 permissions:
