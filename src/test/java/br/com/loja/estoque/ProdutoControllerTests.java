@@ -45,7 +45,7 @@ public class ProdutoControllerTests {
     @BeforeEach
     public void beforeEach() throws IOException, InterruptedException {
 //        if(!isMongoRunning()) startMongo();
-//        produtoRepository.deleteAll();
+        produtoRepository.deleteAll();
     }
 
     @Test
