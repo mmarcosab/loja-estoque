@@ -3,15 +3,20 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ec2-user/server
+    destination: /home/ec2-user
+file_exists_behavior: OVERWRITE
 
 permissions:
   - object: /
     pattern: "**"
     owner: ec2-user
     group: ec2-user
-
+    mode: 777
 hooks:
+  ApplicationStop:
+    - location: server_stop.sh
+      timeout: 60
+      runas: ec2-user
   BeforeInstall:
     - location: server_clear.sh
       timeout: 60
@@ -24,6 +29,3 @@ hooks:
     - location: server_start.sh
       timeout: 60
       runas: ec2-user
-  ApplicationStop:
-    - location: scripts/server_stop.sh
-      timeout: 60
